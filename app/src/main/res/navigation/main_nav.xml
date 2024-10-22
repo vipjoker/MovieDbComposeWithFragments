@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/main_nav"
+            app:startDestination="@id/nav_list"
+>
+
+
+    <fragment
+            android:id="@+id/nav_detail"
+            android:name="com.example.moviedbtestassignment.ui.fragments.DetailFragment"
+            android:label="DetailFragment">
+        <argument android:name="title" app:argType="string"/>
+        <argument android:name="description" app:argType="string"/>
+        <argument android:name="mainUrl" app:argType="string"/>
+        <argument android:name="secondaryUrl" app:argType="string"/>
+
+    </fragment>
+    <fragment
+            android:id="@+id/nav_list"
+            android:name="com.example.moviedbtestassignment.ui.fragments.ListFragment"
+            android:label="ListFragment">
+
+        <action android:id="@+id/action_detail"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"
+                app:destination="@id/nav_detail"/>
+
+
+        <action android:id="@+id/action_info"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"
+                app:destination="@id/nav_info"/>
+
+        <action android:id="@+id/action_settings"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"
+                app:destination="@id/nav_settings"/>
+
+    </fragment>
+    <fragment
+            android:id="@+id/nav_info"
+            android:name="com.example.moviedbtestassignment.ui.fragments.InformationFragment"
+            android:label="InfoFragment"/>
+
+    <fragment
+            android:id="@+id/nav_settings"
+            android:name="com.example.moviedbtestassignment.ui.fragments.SettingsFragment"
+            android:label="SettingsFragment"/>
+
+
+</navigation>
