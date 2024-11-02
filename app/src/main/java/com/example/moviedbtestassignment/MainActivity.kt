@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 
 import androidx.fragment.app.FragmentActivity
+import com.example.core.NetworkClient
 import com.example.moviedbtestassignment.ui.MoviesDbViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -13,13 +14,16 @@ class MainActivity : FragmentActivity() {
 
     private val viewModel: MoviesDbViewModel by viewModels()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
 
 
         setContentView(R.layout.content_main)
+
+
+
+
 //            ComposeView(this).apply {
 //                consumeWindowInsets = false
 //                setContent {

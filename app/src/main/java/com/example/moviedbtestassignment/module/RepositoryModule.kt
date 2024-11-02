@@ -1,11 +1,17 @@
 package com.example.moviedbtestassignment.module
 
 import android.content.Context
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import com.example.moviedbtestassignment.repository.MovieRepositoryLocal
 import com.example.moviedbtestassignment.api.MovieDbApiService
 import com.example.moviedbtestassignment.db.dao.FavouriteDao
 import com.example.moviedbtestassignment.db.dao.MovieDao
+import com.example.moviedbtestassignment.db.entity.MovieLocal
+import com.example.moviedbtestassignment.paging.MoviePagingMediator
 import com.example.moviedbtestassignment.repository.*
+import com.example.moviedbtestassignment.ui.model.MovieDomain
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,8 +39,8 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideRepository(remoteRepository: MovieRepositoryRemote, localRepository: MovieRepositoryLocal): MovieRepository {
-        return MovieRepository(remoteRepository,localRepository)
+    fun provideRepository(remoteRepository: MovieRepositoryRemote, localRepository: MovieRepositoryLocal,pager: Pager<Int, MovieLocal>): MovieRepository {
+        return MovieRepository(remoteRepository,localRepository, pager)
     }
 
     @Provides
@@ -50,4 +56,19 @@ class RepositoryModule {
     }
 
 
-}
+    @OptIn(ExperimentalPagingApi::class)
+    @Provides
+    @Singleton
+    fun providerPager(remoteRepository: MovieRepositoryRemote, localRepository: MovieRepositoryLocal): Pager<Int, MovieLocal> {
+            return Pager(
+                config = PagingConfig(pageSize = 20),
+                remoteMediator = MoviePagingMediator(
+                    remoteRepository,
+                    localRepository
+                ),
+                pagingSourceFactory = {
+                    localRepository.getMoviePagingSource()
+                }
+            )
+        }
+    }

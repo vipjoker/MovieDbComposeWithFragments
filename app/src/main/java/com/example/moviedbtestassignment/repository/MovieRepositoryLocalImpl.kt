@@ -40,4 +40,10 @@ class MovieRepositoryLocalImpl(val movieDao: MovieDao, val favouriteDao: Favouri
     override fun getLocalMovieById(id: Int): Flow<MovieLocal> {
         return movieDao.getMovieByIdFlow(id)
     }
+
+    override fun getMoviePagingSource() = movieDao.pagingSource()
+
+    override suspend fun clearMovies() {
+        movieDao.deleteAll()
+    }
 }

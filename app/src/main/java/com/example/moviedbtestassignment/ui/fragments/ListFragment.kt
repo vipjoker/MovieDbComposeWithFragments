@@ -53,14 +53,18 @@ import com.bumptech.glide.load.Transformation
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.example.core.Character
+import com.example.core.NetworkClient
 import com.example.moviedbtestassignment.R
 import com.example.moviedbtestassignment.ui.model.MovieDomain
+import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class ListFragment : Fragment() {
 
 
     private val viewModel: MoviesDbViewModel by activityViewModels()
+    private val network = NetworkClient()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,6 +76,18 @@ class ListFragment : Fragment() {
         setContent {
             val isDarkMode by viewModel.isDarkModeFlow().collectAsState(false)
 
+
+            var character  by remember {
+                mutableStateOf<Character?>(null)
+            }
+
+            LaunchedEffect(key1 = Unit, block = {
+               delay(3000)
+               character = network.getCharacter(4)
+            })
+
+
+
             MovieDBTestAssignmentTheme (
                 darkTheme = isDarkMode
             ){
@@ -81,6 +97,9 @@ class ListFragment : Fragment() {
                         .fillMaxSize(), color = Color.Gray
                 ) {
                     Column() {
+
+                        Text(character?.name?: "Unknown")
+
 
                         HomeScreen(viewModel, isDarkMode)
 

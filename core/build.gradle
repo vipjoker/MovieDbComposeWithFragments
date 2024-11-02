@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id("kotlinx-serialization")
 }
 
 android {
@@ -31,14 +32,15 @@ android {
 
 dependencies {
 
+    def ktorVersion = "2.3.6"
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+    implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+    implementation("io.ktor:ktor-client-logging:$ktorVersion")
+
     implementation 'androidx.core:core-ktx:1.13.1'
     implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'com.google.android.material:material:1.12.0'
-    implementation 'androidx.compose.runtime:runtime-android:1.7.3'
-    implementation 'androidx.compose.ui:ui-unit-android:1.7.3'
-    implementation 'androidx.compose.ui:ui-android:1.7.3'
-    implementation 'com.github.bumptech.glide:glide:4.16.0'
-    implementation 'androidx.compose.foundation:foundation-layout-android:1.7.4'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
