@@ -1,15 +1,20 @@
-package com.example.moviedbtestassignment.ui.fragments
+package com.example.moviedbtestassignment.ui.screen
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
-
-import androidx.compose.material.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.runtime.Composable
@@ -19,64 +24,69 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.fragment.findNavController
 import com.example.moviedbtestassignment.R
 import com.example.moviedbtestassignment.ui.MoviesDbViewModel
+import com.example.moviedbtestassignment.ui.fragments.DetailFragment.Companion.ARG_MOVIEID
+import com.example.moviedbtestassignment.ui.fragments.RemoteImage
 import com.example.moviedbtestassignment.ui.model.MovieDomain
-import com.example.moviedbtestassignment.ui.screen.MovieInfo
 import com.example.moviedbtestassignment.ui.theme.MovieDBTestAssignmentTheme
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class DetailFragment : Fragment() {
+@Composable
+fun OldDetailScreen(movieId:Int, nav: NavHostController, viewModel: MoviesDbViewModel = hiltViewModel()) {
 
 
-    private val viewModel: MoviesDbViewModel by activityViewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View = ComposeView(inflater.context).apply {
-        layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
 
-        setContent {
 
-            val isDarkMode by viewModel.isDarkModeFlow().collectAsState(false)
-            val movie by viewModel.findOneMovieById(arguments?.getInt(ARG_MOVIEID) ?: 0)
-                .collectAsState(MovieDomain(0, false, "", listOf(), "", "", "", 0.0, "", "", "", false, 0.0, 0, false))
 
-            MovieDBTestAssignmentTheme(
-                darkTheme = isDarkMode
-            ) {
-                Scaffold(topBar = {
-                    TopAppBar(title = { Text("Details") }, navigationIcon = {
-                        IconButton(onClick = { findNavController().navigateUp() }) {
-                            Icon(imageVector = Icons.Default.ArrowBackIosNew, contentDescription = "Info")
-                        }
-                    })
+
+    val isDarkMode by viewModel.isDarkModeFlow().collectAsState(false)
+    val movie by viewModel.findOneMovieById(movieId)
+        .collectAsState(MovieDomain(0, false, "", listOf(), "", "", "", 0.0, "", "", "", false, 0.0, 0, false))
+
+    MovieDBTestAssignmentTheme(
+        darkTheme = isDarkMode
+    ) {
+        Scaffold(topBar = {
+            TopAppBar(title = { Text("Details") }, navigationIcon = {
+                IconButton(onClick = {
+                    nav.navigateUp()
 
                 }) {
+                    Icon(imageVector = Icons.Default.ArrowBackIosNew, contentDescription = "Info")
+                }
+            })
+
+        }) {
 
 //                    DetailView(movie)
 
-                    MovieInfo(movie, it)
+            MovieInfo(movie,it)
 
-                }
-            }
         }
     }
 
 
+
+
+
+
+
+
+    }
+
+
+
+
     @Composable
-    fun DetailView(movie: MovieDomain) {
+    fun DetailView(movie: MovieDomain, viewModel: MoviesDbViewModel) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -89,7 +99,10 @@ class DetailFragment : Fragment() {
             var url = "http://image.tmdb.org/t/p/w500${movie.posterPath}"
             var background = "http://image.tmdb.org/t/p/w500${movie.backdropPath}"
             var isFavorite = movie.isFavourite
-            Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 RemoteImage(
 
                     background, 200.dp, 500.dp, contentScale = ContentScale.FillWidth
@@ -106,7 +119,12 @@ class DetailFragment : Fragment() {
                             .fillMaxWidth()
                             .padding(10.dp)
                     ) {
-                        Text(text = title, fontWeight = FontWeight.Bold, fontSize = 20f.sp, color = Color.Black)
+                        Text(
+                            text = title,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20f.sp,
+                            color = Color.Black
+                        )
                         Image(
                             painterResource(if (isFavorite) R.drawable.favorite else R.drawable.non_favourite),
                             contentDescription = "",
@@ -148,10 +166,3 @@ class DetailFragment : Fragment() {
         }
 
     }
-
-    companion object {
-        const val ARG_MOVIEID = "arg_movie_id"
-    }
-}
-
-

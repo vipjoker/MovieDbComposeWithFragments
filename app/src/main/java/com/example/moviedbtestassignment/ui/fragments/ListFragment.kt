@@ -53,8 +53,8 @@ import com.bumptech.glide.load.Transformation
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.example.core.Character
 import com.example.core.NetworkClient
+import com.example.core.model.domain.Character
 import com.example.moviedbtestassignment.R
 import com.example.moviedbtestassignment.ui.model.MovieDomain
 import kotlinx.coroutines.delay
@@ -83,7 +83,8 @@ class ListFragment : Fragment() {
 
             LaunchedEffect(key1 = Unit, block = {
                delay(3000)
-               character = network.getCharacter(4)
+               network.getCharacterSafe(4)
+                   .onSuccess { character = it }
             })
 
 
@@ -133,7 +134,7 @@ class ListFragment : Fragment() {
 
 
 
-        }) {
+        }){
             SearchMoviesScreen(viewModel)
         }
     }
@@ -240,8 +241,7 @@ class ListFragment : Fragment() {
 
 
     @Composable
-    private fun SearchResult(
-        movies: LazyPagingItems<MovieDomain>
+    private fun SearchResult(movies: LazyPagingItems<MovieDomain>
     ) {
 
 

@@ -1,5 +1,8 @@
 package com.example.core
 
+import com.example.core.model.domain.Character
+import com.example.core.model.remote.RemoteCharacter
+import com.example.core.model.remote.toDomainCharacter
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
@@ -32,13 +35,56 @@ class NetworkClient {
 
     }
 
-    suspend  fun getCharacter(id:Int): Character{
-        return  client.get("character/${id}").body()
+
+    suspend fun getCharacterSafe(id:Int): ApiOperation<com.example.core.model.domain.Character> =
+        safeApiCall {
+            getCharacter(id)
+        }
+
+
+    private var characterCache = mutableMapOf<Int, Character>()
+    private suspend  fun getCharacter(id:Int): com.example.core.model.domain.Character{
+      characterCache[id]?.let{ return it }
+
+        return  client.get("character/${id}")
+            .body<RemoteCharacter>()
+            .toDomainCharacter()
+            .also {
+                characterCache[id] = it
+            }
     }
 
+    private inline fun <T> safeApiCall(apiCall: ()->T): ApiOperation<T>{
+        return try{
+            ApiOperation.Success(apiCall())
+        }catch (e: Exception){
+            ApiOperation.Failure(e)
+        }
+    }
+
+
+
+
+
 }
-@Serializable
-data class Character(val id:Int, val name:String , val origin: Origin){
-    @Serializable
-    data class Origin(val name:String)
+
+sealed interface ApiOperation<T>{
+    class Success<T>(val data:T):ApiOperation<T>
+    class Failure<T>(val exception: Exception): ApiOperation<T>
+
+    fun onSuccess(callback:(T)->Unit):ApiOperation<T>{
+
+        if(this is Success){
+            callback(data)
+        }
+        return this
+    }
+
+    fun onFailure(callback:(Exception)->Unit):ApiOperation<T>{
+        if (this is Failure){
+            callback(exception)
+        }
+        return this
+    }
+
 }
