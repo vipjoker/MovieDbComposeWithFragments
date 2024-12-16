@@ -13,6 +13,12 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment.Companion.CenterVertically
@@ -26,10 +32,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.room.util.TableInfo
+import com.example.compose.AppTheme
 import com.example.moviedbtestassignment.repository.DeviceInfo
 import com.example.moviedbtestassignment.ui.DeviceInfoViewModel
 import com.example.moviedbtestassignment.ui.MoviesDbViewModel
-import com.example.moviedbtestassignment.ui.theme.MovieDBTestAssignmentTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,6 +44,7 @@ class InformationFragment() : Fragment() {
     private val viewModel: MoviesDbViewModel by activityViewModels()
     private val deiviceInfoViewModel: DeviceInfoViewModel by viewModels()
 
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,7 +54,7 @@ class InformationFragment() : Fragment() {
 
         setContent {
             val isDarkMode by viewModel.isDarkModeFlow().collectAsState(false)
-            MovieDBTestAssignmentTheme(
+            AppTheme(
                 darkTheme = isDarkMode
             ) {
                 Scaffold(topBar = {
@@ -60,7 +67,7 @@ class InformationFragment() : Fragment() {
 
                 }) {
                     val deviceInfo by deiviceInfoViewModel.deviceInfo().collectAsState(DeviceInfo("","","",""))
-                    Column(verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(10.dp) ) {
+                    Column(verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(  it) ) {
                         Text("Device name : ${deviceInfo.deviceName}")
                         Text("Device brand : ${deviceInfo.deviceBrand}")
                         Text("Device model : ${deviceInfo.deviceModel}")

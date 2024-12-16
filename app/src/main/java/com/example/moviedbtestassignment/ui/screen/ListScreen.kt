@@ -16,15 +16,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -47,12 +48,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.fragment.findNavController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.compose.AppTheme
 import com.example.moviedbtestassignment.R
 import com.example.moviedbtestassignment.ui.MoviesDbViewModel
 import com.example.moviedbtestassignment.ui.fragments.DetailFragment
 import com.example.moviedbtestassignment.ui.fragments.RemoteImage
 import com.example.moviedbtestassignment.ui.model.MovieDomain
-import com.example.moviedbtestassignment.ui.theme.MovieDBTestAssignmentTheme
 
 
 @Composable
@@ -77,7 +78,7 @@ fun ListScreen(nav: NavHostController, viewModel: MoviesDbViewModel = hiltViewMo
 
 
 
-    MovieDBTestAssignmentTheme (
+    AppTheme (
         darkTheme = isDarkMode
     ){
         Surface(
@@ -98,6 +99,7 @@ fun ListScreen(nav: NavHostController, viewModel: MoviesDbViewModel = hiltViewMo
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeScreen(nav:NavHostController,viewModel: MoviesDbViewModel, isDarkMode: Boolean) {
     Scaffold(topBar = {

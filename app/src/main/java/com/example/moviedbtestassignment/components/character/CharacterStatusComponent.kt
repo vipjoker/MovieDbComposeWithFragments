@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,8 +16,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColor
+import com.example.compose.AppTheme
 import com.example.core.model.domain.CharacterStatus
-import com.example.moviedbtestassignment.ui.theme.MovieDBTestAssignmentTheme
 
 
 @Composable
@@ -37,21 +37,21 @@ fun CharacterStatusComponent(characterStatus: CharacterStatus) {
 @Preview
 @Composable
 fun CharacterStatusComponentPreviewAlive() {
-    MovieDBTestAssignmentTheme  {
+    AppTheme   {
         CharacterStatusComponent(characterStatus = CharacterStatus.Alive)
     }
 }
 @Preview
 @Composable
 fun CharacterStatusComponentPreviewDead() {
-    MovieDBTestAssignmentTheme {
+    AppTheme  {
         CharacterStatusComponent(characterStatus = CharacterStatus.Dead)
     }
 }
 @Preview
 @Composable
 fun CharacterStatusComponentPreviewUnknown() {
-    MovieDBTestAssignmentTheme  {
+    AppTheme   {
         CharacterStatusComponent(characterStatus = CharacterStatus.Unknown)
     }
 }

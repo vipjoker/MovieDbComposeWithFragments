@@ -12,6 +12,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,11 +33,11 @@ import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.example.compose.AppTheme
 import com.example.moviedbtestassignment.R
 import com.example.moviedbtestassignment.ui.MoviesDbViewModel
 import com.example.moviedbtestassignment.ui.model.MovieDomain
 import com.example.moviedbtestassignment.ui.screen.MovieInfo
-import com.example.moviedbtestassignment.ui.theme.MovieDBTestAssignmentTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,6 +46,7 @@ class DetailFragment : Fragment() {
 
     private val viewModel: MoviesDbViewModel by activityViewModels()
 
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -53,7 +60,7 @@ class DetailFragment : Fragment() {
             val movie by viewModel.findOneMovieById(arguments?.getInt(ARG_MOVIEID) ?: 0)
                 .collectAsState(MovieDomain(0, false, "", listOf(), "", "", "", 0.0, "", "", "", false, 0.0, 0, false))
 
-            MovieDBTestAssignmentTheme(
+            AppTheme (
                 darkTheme = isDarkMode
             ) {
                 Scaffold(topBar = {

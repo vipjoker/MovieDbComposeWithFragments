@@ -26,7 +26,6 @@ import androidx.fragment.app.Fragment
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.moviedbtestassignment.ui.MoviesDbViewModel
-import com.example.moviedbtestassignment.ui.theme.MovieDBTestAssignmentTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 import androidx.compose.material.*
@@ -34,6 +33,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
@@ -53,6 +59,7 @@ import com.bumptech.glide.load.Transformation
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.example.compose.AppTheme
 import com.example.core.NetworkClient
 import com.example.core.model.domain.Character
 import com.example.moviedbtestassignment.R
@@ -89,7 +96,7 @@ class ListFragment : Fragment() {
 
 
 
-            MovieDBTestAssignmentTheme (
+            AppTheme (
                 darkTheme = isDarkMode
             ){
                 Surface(
@@ -111,6 +118,7 @@ class ListFragment : Fragment() {
     }
 
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     private fun HomeScreen(viewModel: MoviesDbViewModel, isDarkMode: Boolean) {
         Scaffold(topBar = {
@@ -135,7 +143,7 @@ class ListFragment : Fragment() {
 
 
         }){
-            SearchMoviesScreen(viewModel)
+            SearchMoviesScreen(viewModel,it)
         }
     }
 
@@ -144,13 +152,13 @@ class ListFragment : Fragment() {
 
 
     @Composable
-    fun SearchMoviesScreen(viewModel: MoviesDbViewModel) {
+    fun SearchMoviesScreen(viewModel: MoviesDbViewModel, padding: PaddingValues) {
         val movies by rememberUpdatedState(newValue = viewModel.uiState.collectAsLazyPagingItems())
         LaunchedEffect(true) {
             viewModel.onSearchClicked()
         }
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize().padding(padding)
         ) {
             Box {
 

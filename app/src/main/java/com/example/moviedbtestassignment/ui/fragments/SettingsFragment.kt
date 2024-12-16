@@ -16,6 +16,16 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,8 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.example.compose.AppTheme
 import com.example.moviedbtestassignment.ui.MoviesDbViewModel
-import com.example.moviedbtestassignment.ui.theme.MovieDBTestAssignmentTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,6 +46,7 @@ class SettingsFragment : Fragment() {
 
     private val viewModel: MoviesDbViewModel by activityViewModels()
 
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,7 +60,7 @@ class SettingsFragment : Fragment() {
 
             val isDarkMode by viewModel.isDarkModeFlow().collectAsState(false)
 
-            MovieDBTestAssignmentTheme(
+            AppTheme(
                 darkTheme = isDarkMode
             ) {
 
@@ -64,7 +75,7 @@ class SettingsFragment : Fragment() {
                     })
 
                 }) {
-                    SettingsScreen(viewModel)
+                    SettingsScreen(viewModel,it)
 
                 }
             }
@@ -73,13 +84,13 @@ class SettingsFragment : Fragment() {
 
 
         @Composable
-        fun SettingsScreen(vm: MoviesDbViewModel) {
+        fun SettingsScreen(vm: MoviesDbViewModel, paddingValues: PaddingValues) {
             Scaffold() {
                 Column(
                     modifier = Modifier
                         .verticalScroll(rememberScrollState())
                         .padding(it)
-                        .padding(16.dp)
+                        .padding(paddingValues)
                 ) {
                     // the switch composable
                     SettingsSwitchComp(
@@ -124,7 +135,7 @@ class SettingsFragment : Fragment() {
                             Text(
                                 text = name,
                                 modifier = Modifier.padding(16.dp),
-                                style = MaterialTheme.typography.body1,
+                                style = MaterialTheme.typography.bodyLarge,
                                 textAlign = TextAlign.Start,
                             )
                         }

@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
@@ -22,11 +22,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
+import com.example.compose.AppTheme
 import com.example.moviedbtestassignment.components.common.DataPoint
 import com.example.moviedbtestassignment.components.common.DataPointComponent
 import com.example.moviedbtestassignment.ui.MoviesDbViewModel
 import com.example.moviedbtestassignment.ui.model.MovieDomain
-import com.example.moviedbtestassignment.ui.theme.MovieDbAction
 
 
 
@@ -127,7 +127,7 @@ private fun LoadingState(){
     CircularProgressIndicator(modifier = Modifier
         .fillMaxSize()
         .padding(all = 128.dp),
-        color = MovieDbAction
+        color = Color.Cyan
     )
 
 

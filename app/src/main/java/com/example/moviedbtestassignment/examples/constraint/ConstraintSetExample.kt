@@ -1,4 +1,4 @@
-package com.example.moviedbtestassignment.constraint
+package com.example.moviedbtestassignment.examples.constraint
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

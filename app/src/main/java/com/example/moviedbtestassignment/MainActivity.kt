@@ -4,20 +4,16 @@ package com.example.moviedbtestassignment
 
 import android.os.Bundle
 import android.os.Parcelable
-import android.provider.ContactsContract.Profile
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -34,29 +30,23 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonColors
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Card
-import androidx.compose.material.Checkbox
-import androidx.compose.material.Colors
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.Icons.Rounded
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardElevation
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.RememberObserver
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -80,42 +70,19 @@ import androidx.compose.ui.unit.sp
 
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import coil.compose.AsyncImage
-import com.example.core.NetworkClient
-import com.example.moviedbtestassignment.material.MaterialExample
+import com.example.moviedbtestassignment.examples.scafold.BackHandlerExample
+import com.example.moviedbtestassignment.examples.scafold.NavigationBarExample
+import com.example.moviedbtestassignment.examples.scafold.ScafoldExample
+import com.example.moviedbtestassignment.examples.scafold.TopBarExample
 import com.example.moviedbtestassignment.repository.ExampleUserService
 import com.example.moviedbtestassignment.repository.User
 import com.example.moviedbtestassignment.ui.MoviesDbViewModel
-import com.example.moviedbtestassignment.ui.screen.ListScreen
-import com.example.moviedbtestassignment.ui.screen.OldDetailScreen
-import com.github.javafaker.Faker
-import com.google.android.material.tabs.TabItem
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.buffer
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.zip
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.parcelize.Parcelize
 import kotlin.random.Random
@@ -214,11 +181,10 @@ private class LifecycleRememberObserver(val name: String) : RememberObserver {
 class MainActivity : FragmentActivity() {
 
 
-    private val viewModel: MoviesDbViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        enableEdgeToEdge()
 
 //        setContentView(R.layout.content_main)
         setContent {
@@ -255,8 +221,15 @@ class MainActivity : FragmentActivity() {
 
 
 //                ListScreenExample()
-            MaterialExample()
+//            MaterialExample()
+//            SideEfectExample()
+//            ScafoldExample()
+//            TopBarExample()
+
+//            NavigationBarExample()
+            BackHandlerExample()
         }
+
 
 
 //            ComposeView(this).apply {
@@ -374,7 +347,7 @@ class UserProvider() : PreviewParameterProvider<User>{
 
 @Composable
 fun UserCard(user:User){
-    Card(shape = RoundedCornerShape(size = 6.dp), elevation = 8.dp,
+    Card(shape = RoundedCornerShape(size = 6.dp)   ,
 
         modifier = Modifier.clickable() {
 
@@ -420,7 +393,7 @@ fun ButtonExample(){
 
     Button(
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = Color(state.color)
+            contentColor = Color(state.color),
         ),
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),

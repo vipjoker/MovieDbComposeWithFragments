@@ -10,13 +10,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -31,13 +31,15 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.fragment.findNavController
+import com.example.compose.AppTheme
 import com.example.moviedbtestassignment.R
 import com.example.moviedbtestassignment.ui.MoviesDbViewModel
 import com.example.moviedbtestassignment.ui.fragments.DetailFragment.Companion.ARG_MOVIEID
 import com.example.moviedbtestassignment.ui.fragments.RemoteImage
 import com.example.moviedbtestassignment.ui.model.MovieDomain
-import com.example.moviedbtestassignment.ui.theme.MovieDBTestAssignmentTheme
+import androidx.compose.material3.Scaffold as Scaffold
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OldDetailScreen(movieId:Int, nav: NavHostController, viewModel: MoviesDbViewModel = hiltViewModel()) {
 
@@ -51,11 +53,12 @@ fun OldDetailScreen(movieId:Int, nav: NavHostController, viewModel: MoviesDbView
     val movie by viewModel.findOneMovieById(movieId)
         .collectAsState(MovieDomain(0, false, "", listOf(), "", "", "", 0.0, "", "", "", false, 0.0, 0, false))
 
-    MovieDBTestAssignmentTheme(
+    AppTheme(
         darkTheme = isDarkMode
     ) {
         Scaffold(topBar = {
             TopAppBar(title = { Text("Details") }, navigationIcon = {
+
                 IconButton(onClick = {
                     nav.navigateUp()
 
