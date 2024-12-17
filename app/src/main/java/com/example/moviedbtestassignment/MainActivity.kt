@@ -72,6 +72,10 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.example.moviedbtestassignment.examples.dropdown.DropDownExample
+import com.example.moviedbtestassignment.examples.navigation.NavigationExample
+import com.example.moviedbtestassignment.examples.navigation.StableImutableExample
+import com.example.moviedbtestassignment.examples.navigation.advanced.NavigationExampleAdvanced
 import com.example.moviedbtestassignment.examples.scafold.BackHandlerExample
 import com.example.moviedbtestassignment.examples.scafold.NavigationBarExample
 import com.example.moviedbtestassignment.examples.scafold.ScafoldExample
@@ -227,8 +231,13 @@ class MainActivity : FragmentActivity() {
 //            TopBarExample()
 
 //            NavigationBarExample()
-            BackHandlerExample()
+//            BackHandlerExample()
+//            DropDownExample()
+//            NavigationExample()
+            NavigationExampleAdvanced()
+//            StableImutableExample()
         }
+
 
 
 
