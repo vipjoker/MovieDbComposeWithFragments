@@ -43,6 +43,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.compose.AppTheme
 import com.example.moviedbtestassignment.R
 import com.example.moviedbtestassignment.examples.navigation.ItemsRepository
+import com.example.moviedbtestassignment.examples.navigation.advanced.screens.AddItemNewScreen
+import com.example.moviedbtestassignment.examples.navigation.advanced.screens.ListTabScreen
+import com.example.moviedbtestassignment.examples.navigation.advanced.screens.ProfileTabScreen
+import com.example.moviedbtestassignment.examples.navigation.advanced.screens.SettingsTabScreen
 import com.example.navigation.NavigationHost
 import com.example.navigation.rememberNavigation
 
@@ -61,20 +65,8 @@ fun NavigationExampleAdvanced() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppScreen2(itemsRepository: ItemsRepository = ItemsRepository.get()) {
-    val items by itemsRepository.getItems().collectAsStateWithLifecycle()
-
-//    val stack = remember { mutableStateListOf<AppRoute>(AppRoute.Tab.Items) }
-//
-//    val currentRoute = stack.last()
-//    val isRoot = stack.size == 1
-
     val navigation = rememberNavigation(initialRoute = AppRoute.Tab.Items)
-
     val (router, navigationState ) = navigation
-
-
-
-
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -168,70 +160,17 @@ fun AppScreen2(itemsRepository: ItemsRepository = ItemsRepository.get()) {
             ) { currentRoute ->
 
                 when (currentRoute) {
-                    AppRoute.AddItem -> AddItemScreen {
-                        ItemsRepository.get().addItem(it)
-                        router.pop()
-                    }
-                    AppRoute.Tab.Items -> ListScreen(items)
-                    AppRoute.Tab.Profile -> ProfileScreen()
-                    AppRoute.Tab.Settings -> SettingsScreen()
+                    AppRoute.AddItem -> AddItemNewScreen()
+                    AppRoute.Tab.Items -> ListTabScreen()
+                    AppRoute.Tab.Profile -> ProfileTabScreen()
+                    AppRoute.Tab.Settings -> SettingsTabScreen()
                 }
             }
         })
 }
 
-@Composable
-fun ProfileScreen() {
-    Text("Profile")
-}
-
-@Composable
-fun SettingsScreen() {
-    Text("Settings")
-}
-
-@Composable
-fun ListScreen(items:List<String>) {
-    if(items.isEmpty()){
-        Text("No items")
-    }else {
-        LazyColumn(Modifier.fillMaxSize()) {
 
 
-            items(items) {
-
-                Text(text = it, Modifier.padding(10.dp))
-            }
-        }
-    }
-
-
-}
-
-@Composable
-fun AddItemScreen(callback: (String) -> Unit) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        var text by remember { mutableStateOf("") }
-        val isAddEnabled by remember { derivedStateOf { text.isNotEmpty() }  }
-        OutlinedTextField(
-            value = text,
-            label = { Text(text = "Add new item") },
-            singleLine = true,
-            onValueChange = {
-                text = it
-            })
-
-        Button(
-            enabled = isAddEnabled,
-            onClick = {
-            if (text.isNotEmpty()) {
-                callback(text)
-            }
-        })
-        { Text("Add item") }
-    }
-
-}
 
 
 

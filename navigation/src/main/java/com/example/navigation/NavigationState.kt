@@ -7,4 +7,5 @@ import androidx.compose.runtime.Stable
 interface NavigationState {
     val isRoot:Boolean
     val currentRoute:Route
+    val currentScreen:Screen
 }
